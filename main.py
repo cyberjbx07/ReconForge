@@ -58,9 +58,17 @@ def main():
 
     print("\n[DIRECTORIES FOUND]")
 
+    # ==========================
+    # TECH DETECTION ABD MISSING HEADERS
+    # ==========================
     if dir_results:
         for d in dir_results:
             print(f"{d['path']} → {d['status']} | size: {d['size']} | server: {d['server']}")
+            
+            if d["tech"]:
+                print("  Tech Detected:")
+                for t in d["tech"]:
+                    print(f"   - {t}")
 
             if d["missing_headers"]:
                 print("  Missing Headers:")

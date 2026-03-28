@@ -66,6 +66,11 @@ def generate_report(target, dns_data, subdomains, analyzed_results, dir_results)
                     f.write("  Missing Headers:\n")
                     for h in d["missing_headers"]:
                         f.write(f"   - {h}\n")
+                        
+                if d["tech"]:
+                    f.write("  Tech Detected:\n")
+                    for t in d["tech"]:
+                        f.write(f"   - {t}\n")
 
         else:
             f.write("No directories found\n")

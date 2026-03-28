@@ -1,9 +1,9 @@
 Target: toonstream.dad
 
 [DNS DATA]
-A: ['104.21.66.36', '172.67.155.217']
+A: ['172.67.155.217', '104.21.66.36']
 MX: []
-NS: ['skip.ns.cloudflare.com.', 'blair.ns.cloudflare.com.']
+NS: ['blair.ns.cloudflare.com.', 'skip.ns.cloudflare.com.']
 
 [SUBDOMAINS]
 www.toonstream.dad
@@ -23,18 +23,74 @@ www.toonstream.dad → 8443 → https-alt → LOW RISK
   Missing Headers:
    - X-XSS-Protection
    - Strict-Transport-Security
+  Tech Detected:
+   - Cloudflare
+   - WordPress
+   - jQuery
 /login → 200 | size: 10419 | server: cloudflare
   Missing Headers:
    - X-XSS-Protection
    - Strict-Transport-Security
+  Tech Detected:
+   - Cloudflare
+   - WordPress
+   - jQuery
 /dashboard → 200 | size: 10514 | server: cloudflare
   Missing Headers:
    - X-XSS-Protection
    - Strict-Transport-Security
+  Tech Detected:
+   - Cloudflare
+   - WordPress
+   - jQuery
+/backup → 404 | size: 10514 | server: cloudflare
+  Missing Headers:
+   - X-Frame-Options
+   - Content-Security-Policy
+   - X-XSS-Protection
+   - Strict-Transport-Security
+  Tech Detected:
+   - Cloudflare
+   - WordPress
+   - jQuery
+/test → 404 | size: 10514 | server: cloudflare
+  Missing Headers:
+   - X-Frame-Options
+   - Content-Security-Policy
+   - X-XSS-Protection
+   - Strict-Transport-Security
+  Tech Detected:
+   - Cloudflare
+   - WordPress
+   - jQuery
+/api → 404 | size: 10514 | server: cloudflare
+  Missing Headers:
+   - X-Frame-Options
+   - Content-Security-Policy
+   - X-XSS-Protection
+   - Strict-Transport-Security
+  Tech Detected:
+   - Cloudflare
+   - WordPress
+   - jQuery
 /dev → 200 | size: 91570 | server: cloudflare
   Missing Headers:
    - X-Frame-Options
    - Content-Security-Policy
    - X-XSS-Protection
    - Strict-Transport-Security
+  Tech Detected:
+   - Cloudflare
+   - WordPress
+   - jQuery
+/panel → 404 | size: 91570 | server: cloudflare
+  Missing Headers:
+   - X-Frame-Options
+   - Content-Security-Policy
+   - X-XSS-Protection
+   - Strict-Transport-Security
+  Tech Detected:
+   - Cloudflare
+   - WordPress
+   - jQuery
 

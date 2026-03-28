@@ -48,3 +48,6 @@ admin.spidervella.com → 993 → imaps → LOW RISK
 admin.spidervella.com → 995 → pop3s → LOW RISK
 admin.spidervella.com → 3306 → mysql → LOW RISK
 admin.spidervella.com → 8443 → https-alt → LOW RISK
+[DIRECTORIES]
+No directories found
+
