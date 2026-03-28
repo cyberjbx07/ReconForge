@@ -31,9 +31,10 @@ def main():
         print(sub)
 
     # ==========================
-    # PORT SCANNING (MULTI TARGET)
+    # PORT SCANNING (COLLECT ALL)
     # ==========================
     all_targets = [target] + subdomains
+    all_results = []   # ✅ important
 
     print("\n[PORT SCAN RESULTS]")
 
@@ -44,8 +45,15 @@ def main():
         analyzed_results = analyze_ports(scan_results)
 
         for item in analyzed_results:
+            item["target"] = t   # ✅ add target info
+            all_results.append(item)
+
             print(f"{item['port']} → {item['service']} → {item['risk']} RISK")
-            generate_report(t, analyzed_results)
+
+    # ==========================
+    # GENERATE FINAL REPORT (ONCE)
+    # ==========================
+    generate_report(target, dns_data, subdomains, all_results)
 
 
 if __name__ == "__main__":

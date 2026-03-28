@@ -1,0 +1,50 @@
+Target: spidervella.com
+
+[DNS DATA]
+A: ['104.21.66.61', '172.67.201.133']
+MX: ['mail.spidervella.com.']
+NS: ['ivy.ns.cloudflare.com.', 'anderson.ns.cloudflare.com.']
+
+[SUBDOMAINS]
+www.spidervella.com
+mail.spidervella.com
+admin.spidervella.com
+
+[PORT ANALYSIS]
+
+spidervella.com → 80 → http → MEDIUM RISK
+spidervella.com → 443 → https → LOW RISK
+spidervella.com → 8080 → http-proxy → LOW RISK
+spidervella.com → 8443 → https-alt → LOW RISK
+www.spidervella.com → 80 → http → MEDIUM RISK
+www.spidervella.com → 443 → https → LOW RISK
+www.spidervella.com → 8080 → http-proxy → LOW RISK
+www.spidervella.com → 8443 → https-alt → LOW RISK
+mail.spidervella.com → 21 → ftp → HIGH RISK
+mail.spidervella.com → 22 → ssh → MEDIUM RISK
+mail.spidervella.com → 25 → smtp → LOW RISK
+mail.spidervella.com → 80 → http → MEDIUM RISK
+mail.spidervella.com → 110 → pop3 → LOW RISK
+mail.spidervella.com → 143 → imap → LOW RISK
+mail.spidervella.com → 443 → https → LOW RISK
+mail.spidervella.com → 465 → smtps → LOW RISK
+mail.spidervella.com → 587 → submission → LOW RISK
+mail.spidervella.com → 990 → ftps → LOW RISK
+mail.spidervella.com → 993 → imaps → LOW RISK
+mail.spidervella.com → 995 → pop3s → LOW RISK
+mail.spidervella.com → 3306 → mysql → LOW RISK
+mail.spidervella.com → 8443 → https-alt → LOW RISK
+admin.spidervella.com → 21 → ftp → HIGH RISK
+admin.spidervella.com → 22 → ssh → MEDIUM RISK
+admin.spidervella.com → 25 → smtp → LOW RISK
+admin.spidervella.com → 80 → http → MEDIUM RISK
+admin.spidervella.com → 110 → pop3 → LOW RISK
+admin.spidervella.com → 143 → imap → LOW RISK
+admin.spidervella.com → 443 → https → LOW RISK
+admin.spidervella.com → 465 → smtps → LOW RISK
+admin.spidervella.com → 587 → submission → LOW RISK
+admin.spidervella.com → 990 → ftps → LOW RISK
+admin.spidervella.com → 993 → imaps → LOW RISK
+admin.spidervella.com → 995 → pop3s → LOW RISK
+admin.spidervella.com → 3306 → mysql → LOW RISK
+admin.spidervella.com → 8443 → https-alt → LOW RISK

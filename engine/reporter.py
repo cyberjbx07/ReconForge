@@ -1,14 +1,17 @@
 """
 Module: Reporting Engine
-Description: Generates and saves scan reports to a file.
+Description: Generates complete scan report.
 Author: CyberJBX
 """
 
+import os
 
-def generate_report(target, analyzed_results):
-    """Generate and save report"""
 
-    file_path = "output/report.txt"
+def generate_report(target, dns_data, subdomains, analyzed_results):
+    """Generate full report in single file"""
+
+    safe_target = target.replace(".", "_")
+    file_path = f"output/{safe_target}.txt"
 
     with open(file_path, "w", encoding="utf-8") as f:
 
@@ -17,13 +20,33 @@ def generate_report(target, analyzed_results):
         # ==========================
         f.write(f"Target: {target}\n\n")
 
-        f.write("[PORT ANALYSIS]\n\n")
+        # ==========================
+        # DNS DATA
+        # ==========================
+        f.write("[DNS DATA]\n")
+
+        for record, values in dns_data.items():
+            f.write(f"{record}: {values}\n")
+
+        f.write("\n")
 
         # ==========================
-        # WRITE RESULTS
+        # SUBDOMAINS
         # ==========================
+        f.write("[SUBDOMAINS]\n")
+
+        for sub in subdomains:
+            f.write(f"{sub}\n")
+
+        f.write("\n")
+
+        # ==========================
+        # PORT ANALYSIS
+        # ==========================
+        f.write("[PORT ANALYSIS]\n\n")
+
         for item in analyzed_results:
-            line = f"{item['port']} → {item['service']} → {item['risk']} RISK\n"
+            line = f"{item['target']} → {item['port']} → {item['service']} → {item['risk']} RISK\n"
             f.write(line)
 
     print(f"\n[+] Report saved to {file_path}")
