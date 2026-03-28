@@ -3,7 +3,7 @@ Target: toonstream.dad
 [DNS DATA]
 A: ['104.21.66.36', '172.67.155.217']
 MX: []
-NS: ['blair.ns.cloudflare.com.', 'skip.ns.cloudflare.com.']
+NS: ['skip.ns.cloudflare.com.', 'blair.ns.cloudflare.com.']
 
 [SUBDOMAINS]
 www.toonstream.dad
@@ -19,7 +19,22 @@ www.toonstream.dad → 443 → https → LOW RISK
 www.toonstream.dad → 8080 → http-proxy → LOW RISK
 www.toonstream.dad → 8443 → https-alt → LOW RISK
 [DIRECTORIES]
-[DIRECTORIES]
+/admin → 200 | size: 10514 | server: cloudflare
+  Missing Headers:
+   - X-XSS-Protection
+   - Strict-Transport-Security
+/login → 200 | size: 10419 | server: cloudflare
+  Missing Headers:
+   - X-XSS-Protection
+   - Strict-Transport-Security
 /dashboard → 200 | size: 10514 | server: cloudflare
+  Missing Headers:
+   - X-XSS-Protection
+   - Strict-Transport-Security
 /dev → 200 | size: 91570 | server: cloudflare
+  Missing Headers:
+   - X-Frame-Options
+   - Content-Security-Policy
+   - X-XSS-Protection
+   - Strict-Transport-Security
 

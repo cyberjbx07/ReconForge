@@ -54,12 +54,19 @@ def generate_report(target, dns_data, subdomains, analyzed_results, dir_results)
         # ==========================
         f.write("[DIRECTORIES]\n")
 
-        f.write("[DIRECTORIES]\n")
-
         if dir_results:
             for d in dir_results:
                 line = f"{d['path']} → {d['status']} | size: {d['size']} | server: {d['server']}\n"
                 f.write(line)
+                
+                # ==========================
+                # WRITE MISSING HEADERS
+                # ==========================
+                if d["missing_headers"]:
+                    f.write("  Missing Headers:\n")
+                    for h in d["missing_headers"]:
+                        f.write(f"   - {h}\n")
+
         else:
             f.write("No directories found\n")
 

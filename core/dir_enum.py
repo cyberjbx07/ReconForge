@@ -30,12 +30,11 @@ def run_dir_enum(target):
     for d in dirs:
         url = f"https://{target}/{d}"
 
+        missing_headers = []  # ✅ ALWAYS DEFINE FIRST
+
         try:
             response = requests.get(url, timeout=3)
 
-            # ==========================
-            # VALID STATUS CHECK
-            # ==========================
             if response.status_code in [200, 301, 302, 403]:
 
                 # ==========================
@@ -44,16 +43,31 @@ def run_dir_enum(target):
                 size = len(response.text)
                 server = response.headers.get("Server", "Unknown")
 
+                # ==========================
+                # SECURITY HEADER CHECK
+                # ==========================
+                security_headers = [
+                    "X-Frame-Options",
+                    "Content-Security-Policy",
+                    "X-XSS-Protection",
+                    "Strict-Transport-Security"
+                ]
+
+                for h in security_headers:
+                    if h not in response.headers:
+                        missing_headers.append(h)
+
                 print(f"[FOUND] /{d} → {response.status_code} | size: {size} | server: {server}")
 
                 found_dirs.append({
                     "path": f"/{d}",
                     "status": response.status_code,
                     "size": size,
-                    "server": server
+                    "server": server,
+                    "missing_headers": missing_headers
                 })
 
         except requests.RequestException:
             pass
-
+    
     return found_dirs

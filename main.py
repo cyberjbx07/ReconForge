@@ -61,6 +61,11 @@ def main():
     if dir_results:
         for d in dir_results:
             print(f"{d['path']} → {d['status']} | size: {d['size']} | server: {d['server']}")
+
+            if d["missing_headers"]:
+                print("  Missing Headers:")
+                for h in d["missing_headers"]:
+                    print(f"   - {h}")
     else:
         print("No directories found")
         
