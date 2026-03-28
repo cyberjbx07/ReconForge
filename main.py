@@ -4,6 +4,7 @@ from core.subdomain_enum import run_subdomain_enum
 from core.port_scanner import run_port_scan
 from engine.analyzer import analyze_ports
 from engine.reporter import generate_report
+from core.dir_enum import run_dir_enum
 
 
 def main():
@@ -49,11 +50,24 @@ def main():
             all_results.append(item)
 
             print(f"{item['port']} → {item['service']} → {item['risk']} RISK")
+            
+    # ==========================
+    # DIRECTORY ENUMERATION
+    # ==========================
+    dir_results = run_dir_enum(target)
 
+    print("\n[DIRECTORIES FOUND]")
+
+    if dir_results:
+        for d in dir_results:
+            print(f"{d['path']} → {d['status']}")
+    else:
+        print("No directories found")
+        
     # ==========================
     # GENERATE FINAL REPORT (ONCE)
     # ==========================
-    generate_report(target, dns_data, subdomains, all_results)
+    generate_report(target, dns_data, subdomains, all_results, dir_results)
 
 
 if __name__ == "__main__":

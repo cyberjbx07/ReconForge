@@ -7,7 +7,7 @@ Author: CyberJBX
 import os
 
 
-def generate_report(target, dns_data, subdomains, analyzed_results):
+def generate_report(target, dns_data, subdomains, analyzed_results, dir_results):
     """Generate full report in single file"""
 
     safe_target = target.replace(".", "_")
@@ -48,5 +48,18 @@ def generate_report(target, dns_data, subdomains, analyzed_results):
         for item in analyzed_results:
             line = f"{item['target']} → {item['port']} → {item['service']} → {item['risk']} RISK\n"
             f.write(line)
+            
+        # ==========================
+        # DIRECTORIES
+        # ==========================
+        f.write("[DIRECTORIES]\n")
+
+        if dir_results:
+            for d in dir_results:
+                f.write(f"{d['path']} → {d['status']}\n")
+        else:
+            f.write("No directories found\n")
+
+        f.write("\n")
 
     print(f"\n[+] Report saved to {file_path}")

@@ -1,0 +1,26 @@
+Target: toonstream.dad
+
+[DNS DATA]
+A: ['104.21.66.36', '172.67.155.217']
+MX: []
+NS: ['blair.ns.cloudflare.com.', 'skip.ns.cloudflare.com.']
+
+[SUBDOMAINS]
+www.toonstream.dad
+
+[PORT ANALYSIS]
+
+toonstream.dad → 80 → http → MEDIUM RISK
+toonstream.dad → 443 → https → LOW RISK
+toonstream.dad → 8080 → http-proxy → LOW RISK
+toonstream.dad → 8443 → https-alt → LOW RISK
+www.toonstream.dad → 80 → http → MEDIUM RISK
+www.toonstream.dad → 443 → https → LOW RISK
+www.toonstream.dad → 8080 → http-proxy → LOW RISK
+www.toonstream.dad → 8443 → https-alt → LOW RISK
+[DIRECTORIES]
+/admin → 200
+/login → 200
+/dashboard → 200
+/dev → 200
+
