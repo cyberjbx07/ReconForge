@@ -19,8 +19,7 @@ www.toonstream.dad → 443 → https → LOW RISK
 www.toonstream.dad → 8080 → http-proxy → LOW RISK
 www.toonstream.dad → 8443 → https-alt → LOW RISK
 [DIRECTORIES]
-/admin → 200
-/login → 200
-/dashboard → 200
-/dev → 200
+[DIRECTORIES]
+/dashboard → 200 | size: 10514 | server: cloudflare
+/dev → 200 | size: 91570 | server: cloudflare
 

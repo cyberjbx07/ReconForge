@@ -60,7 +60,7 @@ def main():
 
     if dir_results:
         for d in dir_results:
-            print(f"{d['path']} → {d['status']}")
+            print(f"{d['path']} → {d['status']} | size: {d['size']} | server: {d['server']}")
     else:
         print("No directories found")
         

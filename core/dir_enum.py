@@ -1,6 +1,6 @@
 """
 Module: Directory Enumeration
-Description: Finds hidden directories using wordlist
+Description: Finds hidden directories + analyzes responses
 Author: CyberJBX
 """
 
@@ -8,7 +8,7 @@ import requests
 
 
 def run_dir_enum(target):
-    """Run directory enumeration"""
+    """Run directory enumeration with response analysis"""
 
     found_dirs = []
 
@@ -28,7 +28,7 @@ def run_dir_enum(target):
     # ENUMERATION LOGIC
     # ==========================
     for d in dirs:
-        url = f"http://{target}/{d}"
+        url = f"https://{target}/{d}"
 
         try:
             response = requests.get(url, timeout=3)
@@ -37,10 +37,20 @@ def run_dir_enum(target):
             # VALID STATUS CHECK
             # ==========================
             if response.status_code in [200, 301, 302, 403]:
-                print(f"[FOUND] /{d} → {response.status_code}")
+
+                # ==========================
+                # RESPONSE ANALYSIS
+                # ==========================
+                size = len(response.text)
+                server = response.headers.get("Server", "Unknown")
+
+                print(f"[FOUND] /{d} → {response.status_code} | size: {size} | server: {server}")
+
                 found_dirs.append({
                     "path": f"/{d}",
-                    "status": response.status_code
+                    "status": response.status_code,
+                    "size": size,
+                    "server": server
                 })
 
         except requests.RequestException:
