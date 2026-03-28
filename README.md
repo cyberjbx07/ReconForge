@@ -21,7 +21,7 @@ Advanced Enumeration Framework built using Python.
 ## ⚙️ Setup
 
 ```bash
-git clone https://github.com/<your-username>/ReconForge.git
+git clone https://github.com/cyberjbx07/ReconForge.git
 cd ReconForge
 
 # Create virtual environment
