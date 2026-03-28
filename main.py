@@ -1,0 +1,52 @@
+from core.input import get_target
+from core.dns_enum import run_dns_enum
+from core.subdomain_enum import run_subdomain_enum
+from core.port_scanner import run_port_scan
+from engine.analyzer import analyze_ports
+from engine.reporter import generate_report
+
+
+def main():
+    target = get_target()
+    
+    if not target:
+        return
+
+    # ==========================
+    # DNS ENUMERATION
+    # ==========================
+    dns_data = run_dns_enum(target)
+
+    print("\n[DNS RESULTS]")
+    for record, values in dns_data.items():
+        print(f"{record}: {values}")
+
+    # ==========================
+    # SUBDOMAIN ENUMERATION
+    # ==========================
+    subdomains = run_subdomain_enum(target)
+
+    print("\n[SUBDOMAINS FOUND]")
+    for sub in subdomains:
+        print(sub)
+
+    # ==========================
+    # PORT SCANNING (MULTI TARGET)
+    # ==========================
+    all_targets = [target] + subdomains
+
+    print("\n[PORT SCAN RESULTS]")
+
+    for t in all_targets:
+        print(f"\n[SCANNING] {t}")
+
+        scan_results = run_port_scan(t)
+        analyzed_results = analyze_ports(scan_results)
+
+        for item in analyzed_results:
+            print(f"{item['port']} → {item['service']} → {item['risk']} RISK")
+            generate_report(t, analyzed_results)
+
+
+if __name__ == "__main__":
+    main()
