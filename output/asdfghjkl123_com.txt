@@ -1,4 +1,4 @@
-Target: toonstreamm.dad
+Target: asdfghjkl123.com
 
 [DNS DATA]
 A: []

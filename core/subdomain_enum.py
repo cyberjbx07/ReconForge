@@ -4,15 +4,37 @@ Description: Discovers subdomains using a wordlist.
 Author: CyberJBX
 """
 
+import random
+import string
 import socket
+
+def check_wildcard(domain):
+    random_sub = ''.join(random.choices(string.ascii_lowercase, k=10))
+    test_domain = f"{random_sub}.{domain}"
+
+    try:
+        socket.gethostbyname(test_domain)
+        return True  # wildcard detected
+    except:
+        return False
+    
 
 
 def run_subdomain_enum(target):
     """Run subdomain enumeration using wordlist"""
-
+    # ==========================
+    # WILDCARD CHECK
+    # ==========================
     found_subdomains = []
+    if check_wildcard(target):
+        print("[WARNING] Wildcard DNS detected - results may be inaccurate")
+        print(f"[+] Running Subdomain Enumeration on {target}")
 
-    print(f"[+] Running Subdomain Enumeration on {target}")
+    # ==========================
+    # NORMALIZE TARGET
+    # ==========================
+    if target.startswith("www."):
+        target = target.replace("www.", "")
 
     # ==========================
     # LOAD WORDLIST
@@ -28,13 +50,21 @@ def run_subdomain_enum(target):
     # BRUTE FORCE SUBDOMAINS
     # ==========================
     for sub in subdomains:
+
+        # skip duplicate www
+        if sub == "www":
+            continue
+
         subdomain = f"{sub}.{target}"
 
         try:
             socket.gethostbyname(subdomain)
-            print(f"[FOUND] {subdomain}")
-            found_subdomains.append(subdomain)
+
+            if subdomain not in found_subdomains:
+                print(f"[FOUND] {subdomain}")
+                found_subdomains.append(subdomain)
+
         except socket.gaierror:
-            pass  # Ignore invalid subdomains
+            pass
 
     return found_subdomains

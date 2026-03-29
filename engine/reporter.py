@@ -10,7 +10,11 @@ import os
 def generate_report(target, dns_data, subdomains, analyzed_results, dir_results):
     """Generate full report in single file"""
 
-    safe_target = target.replace(".", "_")
+    # ==========================
+    # CLEAN TARGET FOR FILE NAME
+    # ==========================
+    safe_target = target.replace("https://", "").replace("http://", "")
+    safe_target = safe_target.replace("/", "").replace(".", "_")
     file_path = f"output/{safe_target}.txt"
 
     with open(file_path, "w", encoding="utf-8") as f:

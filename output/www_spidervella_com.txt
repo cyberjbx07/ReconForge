@@ -1,0 +1,14 @@
+Target: https://www.spidervella.com/
+
+[DNS DATA]
+A: []
+MX: []
+NS: []
+
+[SUBDOMAINS]
+
+[PORT ANALYSIS]
+
+[DIRECTORIES]
+No directories found
+

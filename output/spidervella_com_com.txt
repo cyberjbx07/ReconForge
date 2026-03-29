@@ -1,0 +1,108 @@
+Target: spidervella.com.com
+
+[DNS DATA]
+A: ['104.26.5.148', '172.67.72.218', '104.26.4.148']
+MX: ['mx203.inbound-mx.org.', 'mx203.inbound-mx.net.']
+NS: []
+
+[SUBDOMAINS]
+mail.spidervella.com.com
+ftp.spidervella.com.com
+admin.spidervella.com.com
+test.spidervella.com.com
+dev.spidervella.com.com
+api.spidervella.com.com
+blog.spidervella.com.com
+
+[PORT ANALYSIS]
+
+mail.spidervella.com.com → 80 → http → MEDIUM RISK
+mail.spidervella.com.com → 443 → https → LOW RISK
+mail.spidervella.com.com → 8080 → http-proxy → LOW RISK
+mail.spidervella.com.com → 8443 → https-alt → LOW RISK
+ftp.spidervella.com.com → 80 → http → MEDIUM RISK
+ftp.spidervella.com.com → 443 → https → LOW RISK
+ftp.spidervella.com.com → 8080 → http-proxy → LOW RISK
+ftp.spidervella.com.com → 8443 → https-alt → LOW RISK
+spidervella.com.com → 80 → http → MEDIUM RISK
+spidervella.com.com → 443 → https → LOW RISK
+spidervella.com.com → 8080 → http-proxy → LOW RISK
+spidervella.com.com → 8443 → https-alt → LOW RISK
+admin.spidervella.com.com → 80 → http → MEDIUM RISK
+admin.spidervella.com.com → 443 → https → LOW RISK
+admin.spidervella.com.com → 8080 → http-proxy → LOW RISK
+admin.spidervella.com.com → 8443 → https-alt → LOW RISK
+dev.spidervella.com.com → 80 → http → MEDIUM RISK
+dev.spidervella.com.com → 443 → https → LOW RISK
+dev.spidervella.com.com → 8080 → http-proxy → LOW RISK
+dev.spidervella.com.com → 8443 → https-alt → LOW RISK
+blog.spidervella.com.com → 80 → http → MEDIUM RISK
+blog.spidervella.com.com → 443 → https → LOW RISK
+blog.spidervella.com.com → 8080 → http-proxy → LOW RISK
+blog.spidervella.com.com → 8443 → https-alt → LOW RISK
+api.spidervella.com.com → 80 → http → MEDIUM RISK
+api.spidervella.com.com → 443 → https → LOW RISK
+api.spidervella.com.com → 8080 → http-proxy → LOW RISK
+api.spidervella.com.com → 8443 → https-alt → LOW RISK
+test.spidervella.com.com → 80 → http → MEDIUM RISK
+test.spidervella.com.com → 443 → https → LOW RISK
+test.spidervella.com.com → 8080 → http-proxy → LOW RISK
+test.spidervella.com.com → 8443 → https-alt → LOW RISK
+[DIRECTORIES]
+/admin → 403 | size: 4780 | server: cloudflare
+  Missing Headers:
+   - Content-Security-Policy
+   - X-XSS-Protection
+   - Strict-Transport-Security
+  Tech Detected:
+   - Cloudflare
+/login → 403 | size: 4780 | server: cloudflare
+  Missing Headers:
+   - Content-Security-Policy
+   - X-XSS-Protection
+   - Strict-Transport-Security
+  Tech Detected:
+   - Cloudflare
+/dashboard → 403 | size: 4780 | server: cloudflare
+  Missing Headers:
+   - Content-Security-Policy
+   - X-XSS-Protection
+   - Strict-Transport-Security
+  Tech Detected:
+   - Cloudflare
+/backup → 403 | size: 4780 | server: cloudflare
+  Missing Headers:
+   - Content-Security-Policy
+   - X-XSS-Protection
+   - Strict-Transport-Security
+  Tech Detected:
+   - Cloudflare
+/test → 403 | size: 4780 | server: cloudflare
+  Missing Headers:
+   - Content-Security-Policy
+   - X-XSS-Protection
+   - Strict-Transport-Security
+  Tech Detected:
+   - Cloudflare
+/api → 403 | size: 4780 | server: cloudflare
+  Missing Headers:
+   - Content-Security-Policy
+   - X-XSS-Protection
+   - Strict-Transport-Security
+  Tech Detected:
+   - Cloudflare
+/dev → 403 | size: 4780 | server: cloudflare
+  Missing Headers:
+   - Content-Security-Policy
+   - X-XSS-Protection
+   - Strict-Transport-Security
+  Tech Detected:
+   - Cloudflare
+/panel → 403 | size: 4780 | server: cloudflare
+  Missing Headers:
+   - Content-Security-Policy
+   - X-XSS-Protection
+   - Strict-Transport-Security
+  Tech Detected:
+   - Cloudflare
+

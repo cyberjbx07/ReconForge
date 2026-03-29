@@ -1,12 +1,11 @@
 Target: toonstream.dad
 
 [DNS DATA]
-A: ['172.67.155.217', '104.21.66.36']
+A: ['104.21.66.36', '172.67.155.217']
 MX: []
 NS: ['blair.ns.cloudflare.com.', 'skip.ns.cloudflare.com.']
 
 [SUBDOMAINS]
-www.toonstream.dad
 
 [PORT ANALYSIS]
 
@@ -14,12 +13,8 @@ toonstream.dad → 80 → http → MEDIUM RISK
 toonstream.dad → 443 → https → LOW RISK
 toonstream.dad → 8080 → http-proxy → LOW RISK
 toonstream.dad → 8443 → https-alt → LOW RISK
-www.toonstream.dad → 80 → http → MEDIUM RISK
-www.toonstream.dad → 443 → https → LOW RISK
-www.toonstream.dad → 8080 → http-proxy → LOW RISK
-www.toonstream.dad → 8443 → https-alt → LOW RISK
 [DIRECTORIES]
-/admin → 200 | size: 10514 | server: cloudflare
+/admin → 200 | size: 10509 | server: cloudflare
   Missing Headers:
    - X-XSS-Protection
    - Strict-Transport-Security
@@ -27,7 +22,7 @@ www.toonstream.dad → 8443 → https-alt → LOW RISK
    - Cloudflare
    - WordPress
    - jQuery
-/login → 200 | size: 10419 | server: cloudflare
+/login → 200 | size: 10414 | server: cloudflare
   Missing Headers:
    - X-XSS-Protection
    - Strict-Transport-Security
@@ -35,7 +30,7 @@ www.toonstream.dad → 8443 → https-alt → LOW RISK
    - Cloudflare
    - WordPress
    - jQuery
-/dashboard → 200 | size: 10514 | server: cloudflare
+/dashboard → 200 | size: 10509 | server: cloudflare
   Missing Headers:
    - X-XSS-Protection
    - Strict-Transport-Security
@@ -43,47 +38,7 @@ www.toonstream.dad → 8443 → https-alt → LOW RISK
    - Cloudflare
    - WordPress
    - jQuery
-/backup → 404 | size: 10514 | server: cloudflare
-  Missing Headers:
-   - X-Frame-Options
-   - Content-Security-Policy
-   - X-XSS-Protection
-   - Strict-Transport-Security
-  Tech Detected:
-   - Cloudflare
-   - WordPress
-   - jQuery
-/test → 404 | size: 10514 | server: cloudflare
-  Missing Headers:
-   - X-Frame-Options
-   - Content-Security-Policy
-   - X-XSS-Protection
-   - Strict-Transport-Security
-  Tech Detected:
-   - Cloudflare
-   - WordPress
-   - jQuery
-/api → 404 | size: 10514 | server: cloudflare
-  Missing Headers:
-   - X-Frame-Options
-   - Content-Security-Policy
-   - X-XSS-Protection
-   - Strict-Transport-Security
-  Tech Detected:
-   - Cloudflare
-   - WordPress
-   - jQuery
-/dev → 200 | size: 91570 | server: cloudflare
-  Missing Headers:
-   - X-Frame-Options
-   - Content-Security-Policy
-   - X-XSS-Protection
-   - Strict-Transport-Security
-  Tech Detected:
-   - Cloudflare
-   - WordPress
-   - jQuery
-/panel → 404 | size: 91570 | server: cloudflare
+/dev → 200 | size: 91390 | server: cloudflare
   Missing Headers:
    - X-Frame-Options
    - Content-Security-Policy

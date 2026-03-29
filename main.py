@@ -34,12 +34,12 @@ def main():
     # ==========================
     # PORT SCANNING (COLLECT ALL)
     # ==========================
-    all_targets = [target] + subdomains
+    unique_targets = list(set([target] + subdomains))
     all_results = []   # ✅ important
 
     print("\n[PORT SCAN RESULTS]")
 
-    for t in all_targets:
+    for t in unique_targets:
         print(f"\n[SCANNING] {t}")
 
         scan_results = run_port_scan(t)
