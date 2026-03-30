@@ -15,6 +15,7 @@ def run_port_scan(target, mode="fast"):
     
     if mode == "fast":
         ports = "80,443,8080,8443"
+        print(f"[+] Running Port Scan on {target}")
     else:
         ports = "1-65535"
         print(f"[+] Running Port Scan on {target}")

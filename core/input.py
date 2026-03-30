@@ -7,6 +7,7 @@ import re
 
 def get_target():
     target = input("Enter target (IP/Domain): ").strip()
+    target = target.lower()
 
     # ==========================
     # REMOVE PROTOCOL

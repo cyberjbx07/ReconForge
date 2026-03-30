@@ -1,47 +1,54 @@
-"""
-Module: DNS Enumeration
-Description: Retrieves A, MX, and NS records for a given target.
-Author: CyberJBX
-"""
-
 import dns.resolver
 
-
 def run_dns_enum(target):
-    """Run DNS enumeration on target"""
-
-    results = {}
-
     print(f"[+] Running DNS Enumeration on {target}")
 
+    dns_data = {
+        "A": [],
+        "MX": [],
+        "NS": []
+    }
+
     # ==========================
-    # DNS RECORD: A (IP Address)
+    # A RECORD
     # ==========================
     try:
         answers = dns.resolver.resolve(target, 'A')
-        results['A'] = [str(rdata) for rdata in answers]
+        for r in answers:
+            dns_data["A"].append(r.to_text())
     except Exception:
-        results['A'] = []
+        print("[INFO] A record not found")
 
     # ==========================
-    # DNS RECORD: MX (Mail Server)
+    # MX RECORD
     # ==========================
     try:
         answers = dns.resolver.resolve(target, 'MX')
-        results['MX'] = [str(rdata.exchange) for rdata in answers]
+        for r in answers:
+            dns_data["MX"].append(r.exchange.to_text())
     except Exception:
-        results['MX'] = []
+        print("[INFO] MX record not found")
 
     # ==========================
-    # DNS RECORD: NS (Name Server)
+    # NS RECORD
     # ==========================
     try:
         answers = dns.resolver.resolve(target, 'NS')
-        results['NS'] = [str(rdata) for rdata in answers]
+        for r in answers:
+            dns_data["NS"].append(r.to_text())
     except Exception:
-        results['NS'] = []
-        
-    if not any(results.values()):
-        print("[INFO] No DNS records found")
+        print("[INFO] NS record not found")
 
-    return results
+    # ==========================
+    # PRINT RESULTS
+    # ==========================
+    print("\n[DNS RESULTS]")
+
+    if not any(dns_data.values()):
+        print("[INFO] No DNS data found")
+    else:
+        for record, values in dns_data.items():
+            if values:
+                print(f"{record}: {values}")
+    
+    return dns_data

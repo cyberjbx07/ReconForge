@@ -41,7 +41,7 @@ def run_subdomain_enum(target, mode="fast"):
     # ==========================
     try:
         if mode == "fast":
-            wordlist_file = "data/sub_small.txt"
+            wordlist_file = "data/sub_small_wordlist.txt"
         else:
             wordlist_file = "data/wordlist.txt"
 
@@ -73,7 +73,7 @@ def run_subdomain_enum(target, mode="fast"):
         except socket.gaierror:
             pass
         
-        if not found_subdomains:
-            print("[INFO] No subdomains found")
+    if not found_subdomains:
+        print("[INFO] No subdomains found")
 
     return found_subdomains
