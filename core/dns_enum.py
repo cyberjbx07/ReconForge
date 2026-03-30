@@ -40,5 +40,8 @@ def run_dns_enum(target):
         results['NS'] = [str(rdata) for rdata in answers]
     except Exception:
         results['NS'] = []
+        
+    if not any(results.values()):
+        print("[INFO] No DNS records found")
 
     return results

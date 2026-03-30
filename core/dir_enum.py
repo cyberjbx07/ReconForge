@@ -7,18 +7,23 @@ Author: CyberJBX
 import requests
 
 
-def run_dir_enum(target):
+def run_dir_enum(target, mode="fast"):
     """Run directory enumeration with response analysis"""
 
     found_dirs = []
+    tech_stack = []
 
     print(f"\n[+] Running Directory Enumeration on {target}")
 
     # ==========================
     # LOAD WORDLIST
     # ==========================
+    if mode == "fast":
+        wordlist_file = "data/dirs_small.txt"
+    else:
+        wordlist_file = "data/dirs.txt"
     try:
-        with open("data/dirs.txt", "r") as f:
+        with open(wordlist_file, "r") as f:
             dirs = f.read().splitlines()
     except FileNotFoundError:
         print("[-] Wordlist not found")
@@ -45,7 +50,6 @@ def run_dir_enum(target):
                 # ==========================
                 # TECHNOLOGY DETECTION
                 # ==========================
-                tech_stack = []
 
                 x_powered = response.headers.get("X-Powered-By", "")
                 content = response.text.lower()
@@ -95,5 +99,12 @@ def run_dir_enum(target):
 
         except requests.RequestException:
             pass
+
+        if not found_dirs:
+            print("[INFO] No directories found")
+        if not tech_stack:
+            print("  Tech Detected: None")
+        if not missing_headers:
+            print("  Missing Headers: None")
 
     return found_dirs

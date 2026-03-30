@@ -5,10 +5,133 @@ from core.port_scanner import run_port_scan
 from engine.analyzer import analyze_ports
 from engine.reporter import generate_report
 from core.dir_enum import run_dir_enum
+import argparse
 
+
+
+# ==========================
+# UI HELPERS
+# ==========================
+def banner():
+    print("""
+    =============================
+        ReconForge v2.5
+        Author: CyberJBX
+    =============================
+    """)
+
+def print_section(title):
+    print(f"\n{'='*10} {title} {'='*10}")
+
+def get_args():
+    parser = argparse.ArgumentParser(description="ReconForge Tool")
+    parser.add_argument("-t", "--target", help="Target domain or IP")
+    return parser.parse_args()
+
+
+# ==========================
+# MENU SYSTEM
+# ==========================
+def show_menu():
+    print("\n========== ReconForge Menu ==========")
+    print("1. Fast All Recon Scan")
+    print("2. Full All Recon Scan")
+    print("3. DNS Enumeration")
+    print("4. Subdomain Enumeration")
+    print("5. Port Scan (Fast)")
+    print("6. Port Scan (Full)")
+    print("7. Directory Enumeration")
+    print("8. Technology Detection")
+    print("9. Security Header Analysis")
+    print("0. Exit")
+
+    return input("Select an option: ")
 
 def main():
-    target = get_target()
+    banner()
+
+    args = get_args()
+
+    # ==========================
+    # GET TARGET (ONLY ONCE)
+    # ==========================
+    if args.target:
+        target = args.target
+    else:
+        target = get_target()
+
+    # ==========================
+    # MENU LOOP
+    # ==========================
+    while True:
+        choice = show_menu()
+
+        if choice == "0":
+            print("[INFO] Exiting...")
+            break
+        
+        if choice == "1":
+            print("[DEBUG] Entered Fast All Recon Scan")  # 👈 add this
+            run_port_scan(target, "full")
+            print("[DEBUG] DNS START")
+            run_dns_enum(target)
+
+            print("[DEBUG] SUBDOMAIN START")
+            run_subdomain_enum(target, "fast")
+
+            print("[DEBUG] PORT SCAN START")
+            run_port_scan(target, "fast")
+
+            print("[DEBUG] DIR ENUM START")
+            run_dir_enum(target, "fast")
+    # ==========================
+    # MENU HANDLER
+    # ==========================
+
+    if choice == "1":
+        print("[INFO] Running Fast All Recon Scan")
+
+        run_dns_enum(target)
+        run_subdomain_enum(target, "fast")
+        run_port_scan(target, "fast")
+        run_dir_enum(target, "fast")
+
+    elif choice == "2":
+        print("[INFO] Running Full All Recon Scan")
+
+        run_dns_enum(target)
+        subs = run_subdomain_enum(target)
+        run_port_scan(target)   # full version (later optimize)
+        run_dir_enum(target)
+
+    elif choice == "3":
+        run_dns_enum(target)
+
+    elif choice == "4":
+        run_subdomain_enum(target)
+
+    elif choice == "5":
+        run_port_scan(target)
+
+    elif choice == "6":
+        run_port_scan(target)  # later full mode add karenge
+
+    elif choice == "7":
+        run_dir_enum(target)
+
+    elif choice == "8":
+        print("[INFO] Tech Detection runs with directory scan")
+        run_dir_enum(target)
+
+    elif choice == "9":
+        print("[INFO] Header analysis runs with directory scan")
+        run_dir_enum(target)
+
+    elif choice == "0":
+        exit()
+
+    else:
+        print("[ERROR] Invalid option")
     
     if not target:
         return
@@ -18,7 +141,7 @@ def main():
     # ==========================
     dns_data = run_dns_enum(target)
 
-    print("\n[DNS RESULTS]")
+    print_section("DNS RESULTS")
     for record, values in dns_data.items():
         print(f"{record}: {values}")
 
@@ -84,4 +207,8 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("\n[INFO] Scan interrupted by user")
+        exit(0)

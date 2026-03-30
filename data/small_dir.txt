@@ -1,0 +1,9 @@
+# Add subdomain wordlist here
+www
+mail
+ftp
+admin
+test
+dev
+api
+blog

@@ -20,7 +20,7 @@ def check_wildcard(domain):
     
 
 
-def run_subdomain_enum(target):
+def run_subdomain_enum(target, mode="fast"):
     """Run subdomain enumeration using wordlist"""
     # ==========================
     # WILDCARD CHECK
@@ -37,11 +37,17 @@ def run_subdomain_enum(target):
         target = target.replace("www.", "")
 
     # ==========================
-    # LOAD WORDLIST
+    # LOAD WORDLIST BASED ON MODE
     # ==========================
     try:
-        with open("data/wordlist.txt", "r") as file:
+        if mode == "fast":
+            wordlist_file = "data/sub_small.txt"
+        else:
+            wordlist_file = "data/wordlist.txt"
+
+        with open(wordlist_file, "r") as file:
             subdomains = file.read().splitlines()
+
     except FileNotFoundError:
         print("[-] Wordlist not found")
         return []
@@ -66,5 +72,8 @@ def run_subdomain_enum(target):
 
         except socket.gaierror:
             pass
+        
+        if not found_subdomains:
+            print("[INFO] No subdomains found")
 
     return found_subdomains

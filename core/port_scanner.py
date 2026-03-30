@@ -7,20 +7,27 @@ Author: CyberJBX
 import nmap
 
 
-def run_port_scan(target):
+def run_port_scan(target, mode="fast"):
     """Run port scan using Nmap"""
 
     scanner = nmap.PortScanner()
     results = []
-
-    print(f"[+] Running Port Scan on {target}")
+    
+    if mode == "fast":
+        ports = "80,443,8080,8443"
+    else:
+        ports = "1-65535"
+        print(f"[+] Running Port Scan on {target}")
 
     # ==========================
     # NMAP SCAN EXECUTION
     # ==========================
     try:
-        scanner.scan(hosts=target, arguments='-F') # for fast scan
-        # scanner.scan(hosts=target, arguments='-sS -sV') #for full scan
+        if mode == "fast":
+            scanner.scan(hosts=target, arguments='-F')
+        else:
+            scanner.scan(hosts=target, arguments='-sS -sV')
+
     except Exception as e:
         print(f"[-] Scan error: {e}")
         return []
@@ -45,5 +52,8 @@ def run_port_scan(target):
                 results.append(result)
 
                 print(f"[OPEN] {port} → {service} ({version})")
+                
+            if not results:
+                print("[INFO] No open ports found")
 
     return results
