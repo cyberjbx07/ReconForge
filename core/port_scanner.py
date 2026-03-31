@@ -5,6 +5,7 @@ Author: CyberJBX
 """
 
 import nmap
+from utils.colors import open_port, info, warning
 
 
 def run_port_scan(target, mode="fast"):
@@ -16,13 +17,13 @@ def run_port_scan(target, mode="fast"):
     scanner = nmap.PortScanner()
     results = []
 
-    print(f"[+] Running Port Scan on {target}\n")
+    info(f"[+] Running Port Scan on {target}\n")
 
     # ==========================
     # OPTIONAL PROGRESS 
     # ==========================
 
-    print("Scanning ports... please wait")
+    open_port("Scanning ports... please wait")
     
     # ==========================
     # NMAP SCAN EXECUTION
@@ -37,7 +38,7 @@ def run_port_scan(target, mode="fast"):
             scanner.scan(hosts=target, arguments='-T4 -sS -sV --top-ports 1000')
 
     except Exception as e:
-        print(f"[-] Scan error: {e}")
+        warning(f"[-] Scan error: {e}")
         return []
 
     # ==========================
@@ -77,12 +78,12 @@ def run_port_scan(target, mode="fast"):
                 # ==========================
                 # PRINT OUTPUT
                 # ==========================
-                print(f"[OPEN] {port} → {service} ({version}) → {result['risk']}")
+                open_port(f"[OPEN] {port} → {service} ({version}) → {result['risk']}")
 
     # ==========================
     # NO RESULT CASE
     # ==========================
     if not results:
-        print("[INFO] No open ports found")
+        warning("[INFO] No open ports found")
 
     return results

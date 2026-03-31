@@ -4,7 +4,8 @@
 import argparse
 import re
 import socket
-
+from utils.colors import header, info, menu_option, menu_header, warning
+from colorama import Fore, Style
 from core.input import get_target
 from core.dns_enum import run_dns_enum
 from core.subdomain_enum import run_subdomain_enum
@@ -52,7 +53,7 @@ def ask_to_save(target, scan_data):
 # HELPER FUNCTIONS
 # ==========================
 def section(title):
-    print(f"\n[INFO]========== {title} ==========\n")
+    header(f"\n[INFO]========== {title} ==========\n")
 
 
 def is_ip(target):
@@ -73,12 +74,19 @@ def handle_ip_target(target):
 # UI
 # ==========================
 def banner():
-    print("""
-    =============================
-        ReconForge v2.5
-        Author: CyberJBX
-    =============================
+    print("\n" * 1)
+    print(Fore.MAGENTA + Style.BRIGHT + r"""
+   ██████╗ ███████╗ ██████╗ ██████╗ ███╗   ██╗███████╗ ██████╗ ██████╗ ██████╗ ███████╗
+   ██╔══██╗██╔════╝██╔════╝██╔═══██╗████╗  ██║██╔════╝██╔═══██╗██╔══██╗██╔══██╗██╔════╝
+   ██████╔╝█████╗  ██║     ██║   ██║██╔██╗ ██║█████╗  ██║   ██║██████╔╝██████╔╝█████╗  
+   ██╔══██╗██╔══╝  ██║     ██║   ██║██║╚██╗██║██╔══╝  ██║   ██║██╔══██╗██╔═══╝ ██╔══╝  
+   ██║  ██║███████╗╚██████╗╚██████╔╝██║ ╚████║██║     ╚██████╔╝██║  ██║██║     ███████╗
+   ╚═╝  ╚═╝╚══════╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═══╝╚═╝      ╚═════╝ ╚═╝  ╚═╝╚═╝     ╚══════╝
     """)
+
+    print(Fore.YELLOW + "                ReconForge v3.1")
+    print(Fore.CYAN + "             Automated Recon Tool")
+    print(Fore.GREEN + "               Author: CyberJBX\n")
 
 
 def get_args():
@@ -91,17 +99,16 @@ def get_args():
 # MENU
 # ==========================
 def show_menu():
-    print("\n[+]========== ReconForge Menu ==========[+]")
-    print("[1] Fast All Recon Scan (1-2 min)")
-    print("[2] Full All Recon Scan (2-5 min)")
-    print("[3] DNS Enumeration")
-    print("[4] Subdomain Enumeration")
-    print("[5] Port Scan (Fast)")
-    print("[6] Port Scan (Full)")
-    print("[7] Directory Enumeration (INCLUDES TECH & HEADERS)")
-    print("[8] Change Target")
-    print("[0] Exit")
-
+    menu_header("\n[+]========== ReconForge Menu ==========[+]")
+    menu_option("[1] Fast All Recon Scan (1-2 min)")
+    menu_option("[2] Full All Recon Scan (2-5 min)")
+    menu_option("[3] DNS Enumeration")
+    menu_option("[4] Subdomain Enumeration")
+    menu_option("[5] Port Scan (Fast)")
+    menu_option("[6] Port Scan (Full)")
+    menu_option("[7] Directory Enumeration (INCLUDES TECH & HEADERS)")
+    menu_option("[8] Change Target")
+    menu_option("[0] Exit")
     return input("\nSelect an option: ")
 
 
@@ -144,8 +151,6 @@ def main():
         # OPTION 1: FAST RECON
         # ==========================
         if choice == "1":
-            section("FAST ALL RECON SCAN")
-
             if is_target_ip_flag:
                 handle_ip_target(target)
 
@@ -180,8 +185,6 @@ def main():
         # OPTION 2: FULL RECON
         # ==========================
         elif choice == "2":
-            section("FULL ALL RECON SCAN")
-
             if is_target_ip_flag:
                 handle_ip_target(target)
                 scan_data["ports"] = run_port_scan(target, "full")
@@ -202,7 +205,7 @@ def main():
             section("DNS ENUMERATION")
 
             if is_target_ip_flag:
-                print("[INFO] Skipped (IP detected)")
+                info("[INFO] Skipped (IP detected)")
             else:
                 scan_data["dns"] = run_dns_enum(target)
 
@@ -215,7 +218,7 @@ def main():
             section("SUBDOMAIN ENUMERATION")
 
             if is_target_ip_flag:
-                print("[INFO] Skipped (IP detected)")
+                info("[INFO] Skipped (IP detected)")
             else:
                 scan_data["subdomains"] = run_subdomain_enum(target, "fast")
 
@@ -251,18 +254,18 @@ def main():
         elif choice == "8":
             section("CHANGE TARGET")
             target = get_target().strip().lower()
-            print(f"[INFO] Target updated to: {target}")
+            info(f"[INFO] Target updated to: {target}")
             continue
 
         # ==========================
         # EXIT
         # ==========================
         elif choice == "0":
-            print("[INFO] Exiting...\n")
+            warning("[INFO] Exiting...\n")
             break
 
         else:
-            print("[ERROR] Invalid option")
+            warning("[ERROR] Invalid option")
 
 
 # ==========================
@@ -272,4 +275,4 @@ if __name__ == "__main__":
     try:
         main()
     except KeyboardInterrupt:
-        print("\n[INFO] Scan interrupted by user")
+        warning("\n[INFO] Scan interrupted by user")

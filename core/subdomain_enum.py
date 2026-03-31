@@ -9,6 +9,8 @@ import string
 import socket
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from tqdm import tqdm
+from utils.colors import open_port, info, warning
+from colorama import Fore
 
 
 def check_wildcard(domain):
@@ -51,9 +53,9 @@ def run_subdomain_enum(target, mode="fast"):
     # WILDCARD CHECK
     # ==========================
     if check_wildcard(target):
-        print("[WARNING] Wildcard DNS detected - results may be inaccurate")
+        warning("[WARNING] Wildcard DNS detected - results may be inaccurate")
 
-    print(f"\n[+] Running Subdomain Enumeration on {target}\n")
+    info(f"[+] Running Subdomain Enumeration on {target}\n")
 
     # ==========================
     # NORMALIZE TARGET
@@ -74,7 +76,7 @@ def run_subdomain_enum(target, mode="fast"):
             subdomains = file.read().splitlines()
 
     except FileNotFoundError:
-        print("[-] Wordlist not found")
+        warning("[-] Wordlist not found")
         return []
 
     # ==========================
@@ -93,12 +95,12 @@ def run_subdomain_enum(target, mode="fast"):
                 found_subdomains.append(result)
 
                 # ✅ IMPORTANT: clean print
-                tqdm.write(f"[FOUND] {result}\n")
+                tqdm.write(Fore.GREEN + f"[FOUND] {result}")
 
     # ==========================
     # FINAL RESULT
     # ==========================
     if not found_subdomains:
-        print("[INFO] No subdomains found")
+        warning("\n[INFO] No subdomains found")
 
     return found_subdomains

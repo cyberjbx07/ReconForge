@@ -7,6 +7,8 @@ Author: CyberJBX
 import requests
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from tqdm import tqdm
+from utils.colors import open_port, info, warning
+from colorama import Fore
 
 
 
@@ -108,7 +110,7 @@ def run_dir_enum(target, mode="fast"):
 
     found_dirs = []
 
-    print(f"\n[+] Running Directory Enumeration on {target}\n")
+    info(f"[+] Running Directory Enumeration on {target}\n")
 
     # ==========================
     # LOAD WORDLIST
@@ -121,7 +123,7 @@ def run_dir_enum(target, mode="fast"):
         with open(wordlist_file, "r") as f:
             dirs = f.read().splitlines()
     except FileNotFoundError:
-        print("[-] Wordlist not found")
+        warning("[-] Wordlist not found")
         return []
 
     # ==========================
@@ -138,34 +140,44 @@ def run_dir_enum(target, mode="fast"):
             if result:
                 found_dirs.append(result)
 
-                # ✅ CLEAN OUTPUT (IMPORTANT)
+                # ==========================
+                # MAIN RESULT (GREEN)
+                # ==========================
                 tqdm.write(
+                    Fore.GREEN +
                     f"[FOUND] {result['path']} → {result['status']} | size: {result['size']} | server: {result['server']}"
                 )
 
-                # Tech
+                # ==========================
+                # TECH DETECTION (CYAN HEADER)
+                # ==========================
                 if result["tech"]:
-                    tqdm.write("  Tech Detected:")
+                    tqdm.write(Fore.CYAN + "  Tech Detected:")
                     for t in result["tech"]:
-                        tqdm.write(f"   - {t}")
+                        tqdm.write(Fore.CYAN + f"   - {t}")
                 else:
-                    tqdm.write("  Tech Detected: None")
+                    tqdm.write(Fore.CYAN + "  Tech Detected: None")
 
-                # Headers
+                # ==========================
+                # MISSING HEADERS (RED)
+                # ==========================
                 if result["missing_headers"]:
-                    tqdm.write("  Missing Headers:")
+                    tqdm.write(Fore.RED + "  Missing Headers:")
                     for h in result["missing_headers"]:
-                        tqdm.write(f"   - {h}")
+                        tqdm.write(Fore.RED + f"   - {h}")
                 else:
-                    tqdm.write("  Missing Headers: None")
+                    tqdm.write(Fore.YELLOW + "  Missing Headers: None")
 
-                tqdm.write("-" * 40)
-    
+                # ==========================
+                # SEPARATOR
+                # ==========================
+                tqdm.write(Fore.MAGENTA + "-" * 40)
+        
 
-    # ==========================
-    # AFTER LOOP ONLY
-    # ==========================
-    if not found_dirs:
-        print("[INFO] No directories found")
+        # ==========================
+        # AFTER LOOP ONLY
+        # ==========================
+        if not found_dirs:
+            warning("\n[INFO] No directories found")
 
     return found_dirs
