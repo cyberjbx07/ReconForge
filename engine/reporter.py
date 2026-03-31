@@ -5,6 +5,7 @@ Author: CyberJBX
 """
 
 import os
+from datetime import datetime
 
 
 def generate_report(target, dns_data, subdomains, analyzed_results, dir_results):
@@ -27,11 +28,17 @@ def generate_report(target, dns_data, subdomains, analyzed_results, dir_results)
     # ==========================
     # CLEAN TARGET FOR FILE NAME
     # ==========================
+    # Clean target
     safe_target = target.replace("https://", "").replace("http://", "")
-    safe_target = safe_target.strip().replace("/", "")
-    safe_target = safe_target.replace(".", "_")
+    safe_target = safe_target.replace("/", "").replace(".", "_")
 
-    file_path = f"output/{safe_target}.txt"
+    # Add timestamp
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    
+    folder = f"output/{safe_target}"
+    os.makedirs(folder, exist_ok=True)
+
+    file_path = f"{folder}/{safe_target}_{timestamp}.txt"
 
     # ==========================
     # OPEN FILE FOR WRITING
@@ -53,7 +60,7 @@ def generate_report(target, dns_data, subdomains, analyzed_results, dir_results)
         f.write("[DNS DATA]\n")
 
         if dns_data:
-            for record, values in dns_data.items():
+            for record, values in (dns_data or {}).items():
                 f.write(f"{record}: {values}\n")
         else:
             f.write("No DNS data found\n")
@@ -80,11 +87,12 @@ def generate_report(target, dns_data, subdomains, analyzed_results, dir_results)
 
         if analyzed_results:
             for item in analyzed_results:
+                target_name = item.get("target", target)
+
                 line = (
-                    f"{item['target']} → {item['port']} → "
-                    f"{item['service']} → {item['risk']} RISK\n"
+                    f"{target_name} → {item.get('port', 'N/A')} → "
+                    f"{item.get('service', 'unknown')} → {item.get('risk', 'unknown')} RISK\n"
                 )
-                f.write(line)
         else:
             f.write("No open ports found\n")
 
@@ -99,8 +107,8 @@ def generate_report(target, dns_data, subdomains, analyzed_results, dir_results)
             for d in dir_results:
                 # Basic directory info
                 line = (
-                    f"{d['path']} → {d['status']} | "
-                    f"size: {d['size']} | server: {d['server']}\n"
+                    f"{d.get('path', 'N/A')} → {d.get('status', 'N/A')} | "
+                    f"size: {d.get('size', 'N/A')} | server: {d.get('server', 'Unknown')}\n"
                 )
                 f.write(line)
 

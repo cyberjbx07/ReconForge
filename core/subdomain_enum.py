@@ -7,8 +7,12 @@ Author: CyberJBX
 import random
 import string
 import socket
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from tqdm import tqdm
+
 
 def check_wildcard(domain):
+    """Check if wildcard DNS is enabled"""
     random_sub = ''.join(random.choices(string.ascii_lowercase, k=10))
     test_domain = f"{random_sub}.{domain}"
 
@@ -17,18 +21,39 @@ def check_wildcard(domain):
         return True  # wildcard detected
     except:
         return False
-    
+
+
+def check_subdomain(target, sub):
+    """
+    Resolve a single subdomain
+
+    Returns:
+        str | None
+    """
+    if sub == "www":
+        return None
+
+    subdomain = f"{sub}.{target}"
+
+    try:
+        socket.gethostbyname(subdomain)
+        return subdomain
+    except socket.gaierror:
+        return None
 
 
 def run_subdomain_enum(target, mode="fast"):
     """Run subdomain enumeration using wordlist"""
+
+    found_subdomains = []
+
     # ==========================
     # WILDCARD CHECK
     # ==========================
-    found_subdomains = []
     if check_wildcard(target):
         print("[WARNING] Wildcard DNS detected - results may be inaccurate")
-        print(f"[+] Running Subdomain Enumeration on {target}")
+
+    print(f"\n[+] Running Subdomain Enumeration on {target}")
 
     # ==========================
     # NORMALIZE TARGET
@@ -37,7 +62,7 @@ def run_subdomain_enum(target, mode="fast"):
         target = target.replace("www.", "")
 
     # ==========================
-    # LOAD WORDLIST BASED ON MODE
+    # LOAD WORDLIST
     # ==========================
     try:
         if mode == "fast":
@@ -53,26 +78,26 @@ def run_subdomain_enum(target, mode="fast"):
         return []
 
     # ==========================
-    # BRUTE FORCE SUBDOMAINS
+    # THREAD + PROGRESS BAR
     # ==========================
-    for sub in subdomains:
+    with ThreadPoolExecutor(max_workers=20) as executor:
 
-        # skip duplicate www
-        if sub == "www":
-            continue
+        # create tasks
+        futures = [executor.submit(check_subdomain, target, sub) for sub in subdomains]
 
-        subdomain = f"{sub}.{target}"
+        # progress bar with clean output
+        for future in tqdm(as_completed(futures), total=len(futures), desc="Subdomain Scan"):
+            result = future.result()
 
-        try:
-            socket.gethostbyname(subdomain)
+            if result and result not in found_subdomains:
+                found_subdomains.append(result)
 
-            if subdomain not in found_subdomains:
-                print(f"[FOUND] {subdomain}")
-                found_subdomains.append(subdomain)
+                # ✅ IMPORTANT: clean print
+                tqdm.write(f"[FOUND] {result}")
 
-        except socket.gaierror:
-            pass
-        
+    # ==========================
+    # FINAL RESULT
+    # ==========================
     if not found_subdomains:
         print("[INFO] No subdomains found")
 

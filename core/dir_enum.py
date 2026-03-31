@@ -5,7 +5,11 @@ Author: CyberJBX
 """
 
 import requests
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from tqdm import tqdm
+
+
+
 
 def scan_directory(target, d):
     """
@@ -104,7 +108,7 @@ def run_dir_enum(target, mode="fast"):
 
     found_dirs = []
 
-    print(f"\n[+] Running Directory Enumeration on {target}")
+    print(f"\n[+] Running Directory Enumeration on {target}\n")
 
     # ==========================
     # LOAD WORDLIST
@@ -126,35 +130,37 @@ def run_dir_enum(target, mode="fast"):
     found_dirs = []
 
     with ThreadPoolExecutor(max_workers=10) as executor:
-        results = executor.map(lambda d: scan_directory(target, d), dirs)
+        futures = [executor.submit(scan_directory, target, d) for d in dirs]
 
-    for result in results:
-        if result:
-            found_dirs.append(result)
+        for future in tqdm(as_completed(futures), total=len(futures), desc="Directory Scan"):
+            result = future.result()
+
+            if result:
+                found_dirs.append(result)
+
+                # ✅ CLEAN OUTPUT (IMPORTANT)
+                tqdm.write(
+                    f"[FOUND] {result['path']} → {result['status']} | size: {result['size']} | server: {result['server']}"
+                )
+
+                # Tech
+                if result["tech"]:
+                    tqdm.write("  Tech Detected:")
+                    for t in result["tech"]:
+                        tqdm.write(f"   - {t}")
+                else:
+                    tqdm.write("  Tech Detected: None")
+
+                # Headers
+                if result["missing_headers"]:
+                    tqdm.write("  Missing Headers:")
+                    for h in result["missing_headers"]:
+                        tqdm.write(f"   - {h}")
+                else:
+                    tqdm.write("  Missing Headers: None")
+
+                tqdm.write("-" * 40)
     
-    print("\n[INFO]========== DIRECTORY RESULTS ==========\n")
-
-    for d in found_dirs:
-        print(f"[FOUND] {d['path']} → {d['status']} | size: {d['size']} | server: {d['server']}")
-
-        # Tech
-        if d["tech"]:
-            print("  Tech Detected:")
-            for t in d["tech"]:
-                print(f"   - {t}")
-        else:
-            print("  Tech Detected: None")
-
-        # Headers
-        if d["missing_headers"]:
-            print("  Missing Headers:")
-            for h in d["missing_headers"]:
-                print(f"   - {h}")
-        else:
-            print("  Missing Headers: None")
-
-        print("-" * 40)
-
 
     # ==========================
     # AFTER LOOP ONLY
