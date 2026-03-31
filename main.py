@@ -92,8 +92,8 @@ def get_args():
 # ==========================
 def show_menu():
     print("\n[+]========== ReconForge Menu ==========[+]")
-    print("[1] Fast All Recon Scan")
-    print("[2] Full All Recon Scan")
+    print("[1] Fast All Recon Scan (1-2 min)")
+    print("[2] Full All Recon Scan (2-5 min)")
     print("[3] DNS Enumeration")
     print("[4] Subdomain Enumeration")
     print("[5] Port Scan (Fast)")

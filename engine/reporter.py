@@ -87,16 +87,17 @@ def generate_report(target, dns_data, subdomains, analyzed_results, dir_results)
 
         if analyzed_results:
             for item in analyzed_results:
-                target_name = item.get("target", target)
-
                 line = (
-                    f"{target_name} → {item.get('port', 'N/A')} → "
-                    f"{item.get('service', 'unknown')} → {item.get('risk', 'unknown')} RISK\n"
+                    f"{item.get('target')} → "
+                    f"{item.get('port')} → "
+                    f"{item.get('service')} → "
+                    f"{item.get('risk')} RISK\n"
                 )
+                f.write(line)
         else:
             f.write("No open ports found\n")
 
-        f.write("\n" + "-" * 50 + "\n\n")
+        f.write("\n\n")
 
         # ==========================
         # DIRECTORY ENUMERATION

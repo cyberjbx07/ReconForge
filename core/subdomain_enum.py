@@ -53,7 +53,7 @@ def run_subdomain_enum(target, mode="fast"):
     if check_wildcard(target):
         print("[WARNING] Wildcard DNS detected - results may be inaccurate")
 
-    print(f"\n[+] Running Subdomain Enumeration on {target}")
+    print(f"\n[+] Running Subdomain Enumeration on {target}\n")
 
     # ==========================
     # NORMALIZE TARGET
@@ -93,7 +93,7 @@ def run_subdomain_enum(target, mode="fast"):
                 found_subdomains.append(result)
 
                 # ✅ IMPORTANT: clean print
-                tqdm.write(f"[FOUND] {result}")
+                tqdm.write(f"[FOUND] {result}\n")
 
     # ==========================
     # FINAL RESULT
